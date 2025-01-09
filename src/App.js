@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import AddTodo from "./components/AddTodo";
+import TodoFilter from "./components/TodoFilter";
+import TodoList from "./components/TodoList";
+import useTodoStore from "./store/todoStore";
 
 function App() {
+  const fetchTodos = useTodoStore((state) => state.fetchTodos);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Zustand examples</h1>
+      <TodoFilter />
+      <AddTodo />
+      <TodoList />
+      <button onClick={fetchTodos}>Fetch todos</button>
     </div>
   );
 }
