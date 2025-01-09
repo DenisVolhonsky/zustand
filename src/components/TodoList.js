@@ -1,29 +1,31 @@
-import React from "react";
+import React, { useMemo } from "react";
 import useTodoStore from "../store/todoStore";
 
 const TodoList = () => {
-    
-  const todos = useTodoStore((state) => {
-    if (state.filter === "all") {
-      return state.todos;
+  const todos = useTodoStore((state) => state.todos);
+  const filter = useTodoStore((state) => state.filter);
+
+  const filteredTodos = () => {
+    switch (filter) {
+      case "all":
+        return todos;
+      case "completed":
+        return todos.filter((todo) => todo.completed);
+      case "pending":
+        return todos.filter((todo) => !todo.completed);
+      default:
+        return;
     }
-    if (state.filter === "completed") {
-      return state.todos.filter((todo) => todo.comleted);
-    }
-    if (state.filter === "pending") {
-      return state.todos.filter((todo) => !todo.completed);
-    }
-  });
+  };
 
   const toggleTodo = useTodoStore((state) => state.toggleTodo);
   const deleteTodo = useTodoStore((state) => state.deleteTodo);
 
-  console.log(todos);
   return (
     <div>
       <h1>Task list:</h1>
       <ul>
-        {todos.map((todo) => (
+        {filteredTodos().map((todo) => (
           <li key={todo.id}>
             <span
               onClick={() => toggleTodo(todo.id)}
